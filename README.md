@@ -3,7 +3,7 @@ Sample code to reproduce results of the manuscript *"When makes you unique: Temp
 
 The code generates Fig.2 and Fig. 4 of the paper. More comment and details are provided within the main scripts. Some sample data are included in the repo to make the code standalone.
 
-Please note that the code for NeuroSynth analysis can be downloaded from: https://www.github.com/gpreti/GSP_StructuralDecouplingIndex
+Please note that the code for the NeuroSynth analysis can be downloaded from: https://www.github.com/gpreti/GSP_StructuralDecouplingIndex
 
 Code Author: Enrico Amico.
 
