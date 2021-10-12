@@ -1,4 +1,4 @@
-# MEG_fingerprints
+# Dynamic fingerprints
 Sample code to reproduce results of the manuscript *"When makes you unique: Temporality of the human brain fingerprint"* by Van De Ville et al., Science Advances 2021. 
 
 The code generates Fig.2 and Fig. 4 of the paper. More comment and details are provided within the main scripts. Some sample data are included in the repo to make the code standalone.
