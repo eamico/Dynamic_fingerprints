@@ -1,6 +1,6 @@
 %% This script extracts the "time scales of brain fingerprints"  
 %% as proposed in (Van De Ville et al., Science Advances 2021).
-%% It also replicates Figure 5 of the paper.
+%% It also replicates Figure 4 of the paper.
 %% 
 %% Enrico Amico, EPFL
 %% version 1.1 September, 2021
@@ -24,12 +24,15 @@ configs.wSizeRange = [10 50 100 200 400 800]; % dFC window lenght (number of tim
     n_wsize = length(configs.wSizeRange); % number of windows explored
     
 configs.FileName = 'Fig5_material.mat'; % load relevant files
-    load(configs.FileName);
+% This mat files contains the edgewise intraclass correlation matrices for
+% the different time scales (see Van De Ville et al., Science Advances for details)
+
+load(configs.FileName);
     
 
     
-flags.TimeScale1 = 1; % Replicate Panel 5A, Van De Ville et al., Science Advances 
-flags.TimeScale2 = 1; % Replicate Panel 5B, Van De Ville et al., Science Advances
+flags.TimeScale1 = 1; % Replicate Panel 4A, Van De Ville et al., Science Advances 
+flags.TimeScale2 = 1; % Replicate Panel 4B, Van De Ville et al., Science Advances
  
 %% Time scales of brain fingerprints
 if flags.TimeScale1==1

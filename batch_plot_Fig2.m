@@ -86,7 +86,7 @@ end
 %% 3.0 Plot Dynamic Identifiability matrix matrix
 % Note that the dID matrices should not be averaged across LR and RL sessions
 % (since they represent different resting-state time frames). However, the
-% average across LR and RL session can be performed at the summary stastic stage 
+% average across LR and RL session can be performed at the summary statistic stage 
 % (i.e. dIself, dIothers, dIdiff computation, see lines 83-87)
 figure, 
 for t=1:n_wsize
