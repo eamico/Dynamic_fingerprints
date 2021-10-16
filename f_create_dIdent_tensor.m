@@ -1,5 +1,6 @@
 function dIdent = f_create_dIdent_tensor(FC_test_3D,FC_retest_3D)
-%% Create dIdent tensor (Subjects test, Subjects retest, time scales), and store it as a supramarginal matrix (nsubj x nwin)
+%% Create dIdent tensor (Subjects test, Subjects retest, time scales), 
+%% and store it as a supramarginal matrix (nsubj x nwin)
 nwin = size(FC_test_3D,3);
 nsubj = size(FC_test_3D,1);
 FC_test_2D = zeros(size(FC_test_3D,2),nwin.*nsubj);

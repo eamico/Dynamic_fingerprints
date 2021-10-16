@@ -4,7 +4,7 @@
 %% It also replicates Figure 2 of the paper, on 10 sample HCP subjects.
 %% 
 %% Enrico Amico, EPFL
-%% version 1.1 September, 2021
+%% version 1.2 October, 2021
 %
 %% PLEASE CITE US!
 % If you are using this code for your research, please kindly cite us:
@@ -25,7 +25,7 @@ configs.parc = 'Schaefer400'; % Schaefer + Subcortical regions
     configs.mask_ut = triu(true(configs.Nparc,configs.Nparc),1); % Upper triangular mask 
 configs.wSizeRange = [10 50 100 200 400 800];  % dFC window lenght (number of time points)
 configs.numSubj = 10; % Number of sampled subjects      
-
+Time_scales_str = {'7.2s' '36s' '72s' '144s' '288s' '576s'};
 n_wsize = length(configs.wSizeRange); % number of windows explored
 
 
@@ -33,27 +33,25 @@ flags.ComputeIdent = 1;
 %% 1.0 Dynamic Identifiability matrix at different window lengths 
 if flags.ComputeIdent==1
     Ident_mat = cell(1,n_wsize);
-    % now average the dy
     dIdent_LR = cell(1,n_wsize);
     dIdent_RL = cell(1,n_wsize);   
     disp('Computing dynamic Identifiability (might take a while)...')
     for t=1:n_wsize
-        disp(t);
+        disp(Time_scales_str{t});
         configs.wSize = configs.wSizeRange(t);
         configs.fMRI_file = 'FCs_10S_R1_LR.mat';
-        dFCw_2D_Test = f_create_dFC_data(configs);
-        configs.fMRI_folder = 'FCs_10S_R2_LR.mat';       
-        dFCw_2D_Retest = f_create_dFC_data(configs);
-        dIdent_LR{t} = f_create_dIdent_tensor(dFCw_2D_Test,dFCw_2D_Retest);   
-        configs.fMRI_folder = 'FCs_10S_R1_RL.mat';
-        dFCw_2D_Test = f_create_dFC_data(configs);
-        configs.fMRI_folder = 'FCs_10S_R2_RL.mat';       
-        dFCw_2D_Retest = f_create_dFC_data(configs);
-        dIdent_RL{t} = f_create_dIdent_tensor(dFCw_2D_Test,dFCw_2D_Retest);
+        dFCw_2D_Test_LR = f_create_dFC_data(configs);
+        configs.fMRI_file = 'FCs_10S_R2_LR.mat';       
+        dFCw_2D_Retest_LR = f_create_dFC_data(configs);
+        dIdent_LR{t} = f_create_dIdent_tensor(dFCw_2D_Test_LR,dFCw_2D_Retest_LR);   
+        configs.fMRI_file = 'FCs_10S_R1_RL.mat';
+        dFCw_2D_Test_RL = f_create_dFC_data(configs);
+        configs.fMRI_file = 'FCs_10S_R2_RL.mat';       
+        dFCw_2D_Retest_RL = f_create_dFC_data(configs);
+        dIdent_RL{t} = f_create_dIdent_tensor(dFCw_2D_Test_RL,dFCw_2D_Retest_RL);
     end
 end
 %% 2.0 Extract dynamic Iself, Iothers and Idiff
-% Note that these scores (as well as success rates) might fluctuate in small sample sizes
 
 Ident_mean_LR = zeros(configs.numSubj,configs.numSubj,n_wsize);
 Ident_mean_RL = zeros(configs.numSubj,configs.numSubj,n_wsize);
@@ -83,11 +81,11 @@ for t=1:n_wsize
     dIothers(t) = nanmean(tmp(~mask_diag));
     dIdiff(t) = dIself(t) - dIothers(t);  
 end
-%% 3.0 Plot Dynamic Identifiability matrix matrix
+%% 3.0 Plot Dynamic Identifiability matrix
 % Note that the dID matrices should not be averaged across LR and RL sessions
 % (since they represent different resting-state time frames). However, the
 % average across LR and RL session can be performed at the summary statistic stage 
-% (i.e. dIself, dIothers, dIdiff computation, see lines 83-87)
+% (i.e. dIself, dIothers, dIdiff computation, see lines 80-84)
 figure, 
 for t=1:n_wsize
     subplot(2,3,t); imagesc(dIdent_LR{t},[.1 .6]); colorbar; title([int2str(configs.wSizeRange(t).*configs.TR./1000) 's']);
